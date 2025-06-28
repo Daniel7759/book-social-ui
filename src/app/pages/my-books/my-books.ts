@@ -8,232 +8,14 @@ import { BookCardComponent } from '../../components/book-card/book-card';
 import { BookEditModalComponent } from '../../components/book-edit-modal/book-edit-modal';
 import { BookResponse } from '../../services/models/book-response';
 import { PageResponseBookResponse } from '../../services/models/page-response-book-response';
+import { BookAddModalComponent } from '../../components/book-add-modal/book-add-modal';
 
 @Component({
   selector: 'app-my-books',
   standalone: true,
-  imports: [CommonModule, FormsModule, BookCardComponent, BookEditModalComponent],
-  template: `
-    <div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4 sm:px-6 lg:px-8">
-      <div class="max-w-7xl mx-auto">
-        <!-- Header -->
-        <div class="mb-8">
-          <div class="flex items-center justify-between">
-            <div>
-              <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                Mis Libros
-              </h1>
-              <p class="text-gray-600 dark:text-gray-300">
-                Gestiona tu colección personal de libros
-              </p>
-            </div>
-            <button 
-              (click)="addNewBook()"
-              class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-              </svg>
-              Agregar Libro
-            </button>
-          </div>
-          
-          <!-- Stats -->
-          <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-              <div class="flex items-center">
-                <div class="flex-shrink-0">
-                  <svg class="h-8 w-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                  </svg>
-                </div>
-                <div class="ml-4">
-                  <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total de Libros</p>
-                  <p class="text-2xl font-semibold text-gray-900 dark:text-white">{{ totalElements }}</p>
-                </div>
-              </div>
-            </div>
-            
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-              <div class="flex items-center">
-                <div class="flex-shrink-0">
-                  <svg class="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                  </svg>
-                </div>
-                <div class="ml-4">
-                  <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Disponibles</p>
-                  <p class="text-2xl font-semibold text-gray-900 dark:text-white">{{ getAvailableCount() }}</p>
-                </div>
-              </div>
-            </div>
-            
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-              <div class="flex items-center">
-                <div class="flex-shrink-0">
-                  <svg class="h-8 w-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                  </svg>
-                </div>
-                <div class="ml-4">
-                  <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Prestados</p>
-                  <p class="text-2xl font-semibold text-gray-900 dark:text-white">{{ getBorrowedCount() }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Filters -->
-        <div class="mb-6 flex flex-wrap gap-4">
-          <div class="flex items-center space-x-2">
-            <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Filtrar:</label>
-            <select 
-              [(ngModel)]="filterType" 
-              (change)="applyFilter()"
-              class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white text-sm">
-              <option value="all">Todos</option>
-              <option value="available">Disponibles</option>
-              <option value="borrowed">Prestados</option>
-              <option value="archived">Archivados</option>
-            </select>
-          </div>
-          
-          <div class="flex items-center space-x-2">
-            <input 
-              type="text" 
-              [(ngModel)]="searchQuery" 
-              (input)="applyFilter()"
-              placeholder="Buscar por título o autor..."
-              class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white text-sm px-3 py-2 w-64">
-          </div>
-        </div>
-
-        <!-- Loading -->
-        <div *ngIf="loading" class="flex justify-center items-center py-12">
-          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-        </div>
-
-        <!-- Error -->
-        <div *ngIf="error" class="bg-red-50 border border-red-200 rounded-md p-4 mb-6">
-          <div class="flex items-center">
-            <svg class="h-5 w-5 text-red-400 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-            </svg>
-            <p class="text-sm text-red-700">{{ error }}</p>
-          </div>
-          <button 
-            (click)="loadMyBooks()"
-            class="mt-3 bg-red-100 hover:bg-red-200 text-red-800 px-4 py-2 rounded-md text-sm font-medium">
-            Reintentar
-          </button>
-        </div>
-
-        <!-- Books Grid -->
-        <div *ngIf="!loading && !error" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          <app-book-card 
-            *ngFor="let book of filteredBooks"
-            [book]="book"
-            [showActions]="true"
-            [isOwner]="true"
-            (onEdit)="onEditBook($event)"
-            (onArchive)="onArchiveBook($event)">
-          </app-book-card>
-        </div>
-
-        <!-- Empty State -->
-        <div *ngIf="!loading && !error && filteredBooks.length === 0" class="text-center py-12">
-          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-          </svg>
-          <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">
-            {{ getEmptyStateMessage() }}
-          </h3>
-          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-            {{ getEmptyStateDescription() }}
-          </p>
-          <div class="mt-6">
-            <button 
-              (click)="addNewBook()"
-              class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-              </svg>
-              Agregar tu primer libro
-            </button>
-          </div>
-        </div>
-
-        <!-- Pagination -->
-        <div *ngIf="!loading && !error && totalPages > 1" class="mt-8 flex justify-center">
-          <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-            <button 
-              (click)="goToPage(currentPage - 1)"
-              [disabled]="currentPage === 0"
-              class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
-              <span class="sr-only">Previous</span>
-              <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-              </svg>
-            </button>
-            
-            <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
-              Página {{ currentPage + 1 }} de {{ totalPages }}
-            </span>
-            
-            <button 
-              (click)="goToPage(currentPage + 1)"
-              [disabled]="currentPage >= totalPages - 1"
-              class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
-              <span class="sr-only">Next</span>
-              <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-              </svg>
-            </button>
-          </nav>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal de Edición -->
-    <app-book-edit-modal
-      *ngIf="selectedBook"
-      [book]="selectedBook"
-      [isOpen]="isEditModalOpen"
-      (onClose)="closeEditModal()"
-      (onBookUpdated)="onBookUpdated($event)">
-    </app-book-edit-modal>
-  `,
-  styles: [`
-    /* Estilos específicos para my-books */
-    .book-card {
-      position: relative;
-    }
-    
-    .filter-badge {
-      transition: all 0.2s ease;
-    }
-    
-    .filter-badge:hover {
-      transform: scale(1.05);
-    }
-    
-    /* Custom scrollbar for search input */
-    input[type="text"]:focus {
-      ring: 2px;
-      ring-color: #3b82f6;
-      border-color: #3b82f6;
-    }
-    
-    /* Stats cards animation */
-    .stats-card {
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    
-    .stats-card:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-  `]
+  imports: [CommonModule, FormsModule, BookCardComponent, BookEditModalComponent, BookAddModalComponent],
+  templateUrl: './my-books.html',
+  styleUrl: './my-books.css'
 })
 export class MyBooksComponent implements OnInit {
   books: BookResponse[] = [];
@@ -252,6 +34,9 @@ export class MyBooksComponent implements OnInit {
   // Edit modal
   selectedBook: BookResponse | null = null;
   isEditModalOpen = false;
+
+  // Add modal
+  isAddModalOpen = false;
 
   constructor(
     private authService: AuthService,
@@ -371,8 +156,23 @@ export class MyBooksComponent implements OnInit {
   }
 
   addNewBook(): void {
-    // Por ahora mostrar alert, en el futuro navegar a formulario de agregar libro
-    alert('Funcionalidad de agregar libro en desarrollo. ¡Próximamente!');
+    console.log('Abriendo modal de agregar libro...');
+    this.isAddModalOpen = true;
+    console.log('isAddModalOpen:', this.isAddModalOpen);
+  }
+
+  closeAddModal(): void {
+    this.isAddModalOpen = false;
+  }
+
+  onBookAdded(newBook: BookResponse): void {
+    // Agregar el nuevo libro a la lista local
+    this.books.unshift(newBook); // Lo agregamos al inicio
+    this.totalElements++;
+    this.applyFilter(); // Reaplica los filtros
+    
+    // Mostrar mensaje de éxito
+    alert('¡Libro agregado exitosamente!');
   }
 
   onEditBook(book: BookResponse): void {
@@ -426,5 +226,10 @@ export class MyBooksComponent implements OnInit {
       });
       */
     }
+  }
+
+  openAddBookModal(): void {
+    console.log('openAddBookModal llamado');
+    this.addNewBook();
   }
 }
