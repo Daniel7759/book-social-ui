@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "api-gen": "ng-openapi-gen --input ./src/openapi/openapi.json --output ./src/app/services",
     "serve:ssr:book-social-ui": "node dist/book-social-ui/server/server.mjs"
   },
   "private": true,
@@ -19,8 +20,14 @@
     "@angular/platform-server": "^20.0.0",
     "@angular/router": "^20.0.0",
     "@angular/ssr": "^20.0.2",
+    "@tailwindcss/postcss": "^4.1.11",
     "express": "^5.1.0",
+    "flowbite": "^3.1.2",
+    "jwt-decode": "^4.0.0",
+    "ng-openapi-gen": "^0.53.0",
+    "postcss": "^8.5.6",
     "rxjs": "~7.8.0",
+    "tailwindcss": "^4.1.11",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },
