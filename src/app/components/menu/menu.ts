@@ -78,4 +78,25 @@ export class Menu implements OnInit {
   toggleMobileMenu(): void {
     this.showMobileMenu = !this.showMobileMenu;
   }
+
+  // Método para manejar la navegación con verificación de autenticación
+  navigateWithAuth(route: string, event?: Event): void {
+    // Si es la ruta de inicio, siempre permitir
+    if (route === '/home') {
+      this.router.navigate([route]);
+      return;
+    }
+
+    // Si el usuario no está autenticado, redirigir al login
+    if (!this.isAuthenticated) {
+      if (event) {
+        event.preventDefault();
+      }
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    // Usuario autenticado: navegar normalmente
+    this.router.navigate([route]);
+  }
 }

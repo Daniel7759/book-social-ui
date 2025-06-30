@@ -87,3 +87,60 @@ a:focus {
     box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
   }
 }
+
+/* Estilos para elementos bloqueados */
+.menu-item-locked {
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+
+.menu-item-locked:hover {
+  transform: translateY(-1px);
+}
+
+.menu-item-locked.opacity-50 {
+  opacity: 0.6;
+}
+
+.menu-item-locked.opacity-50:hover {
+  opacity: 0.8;
+}
+
+/* Indicador de candado */
+.lock-indicator {
+  font-size: 0.75rem;
+  margin-left: 0.25rem;
+  opacity: 0.8;
+}
+
+/* Animación para el dropdown del usuario */
+.user-dropdown {
+  animation: fadeInDown 0.15s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Mejoras para el menú móvil */
+.mobile-menu {
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
