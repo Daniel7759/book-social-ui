@@ -17,6 +17,7 @@ export class BookCardComponent {
   @Output() onViewDetails = new EventEmitter<BookResponse>();
   @Output() onEdit = new EventEmitter<BookResponse>(); // Nuevo evento para editar
   @Output() onArchive = new EventEmitter<BookResponse>(); // Nuevo evento para archivar
+  @Output() onAddToWaitlist = new EventEmitter<BookResponse>(); // Nuevo evento para agregar a lista de espera
 
   constructor() {}
 
@@ -93,6 +94,13 @@ export class BookCardComponent {
    */
   toggleArchive(): void {
     this.onArchive.emit(this.book);
+  }
+
+  /**
+   * Emite evento para agregar el libro a la lista de espera
+   */
+  addToWaitlist(): void {
+    this.onAddToWaitlist.emit(this.book);
   }
 
   /**

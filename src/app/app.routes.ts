@@ -20,8 +20,13 @@ export const routes: Routes = [
   },
   { 
     path: 'home', 
-    loadComponent: () => import('./pages/home/home').then(m => m.HomeComponent),
-    canActivate: [authGuard]
+    loadComponent: () => import('./pages/home/home').then(m => m.HomeComponent)
+    // SIN canActivate - página pública
+  },
+  { 
+    path: 'book/:id', 
+    loadComponent: () => import('./pages/book-detail/book-detail').then(m => m.BookDetailComponent)
+    // SIN canActivate - página pública, pero algunas funciones requieren auth
   },
   { 
     path: 'my-books', 
@@ -35,12 +40,12 @@ export const routes: Routes = [
   },
   { 
     path: 'returned-books', 
-    loadComponent: () => import('./pages/home/home').then(m => m.HomeComponent), // Placeholder
+    loadComponent: () => import('./pages/returned-books/returned-books').then(m => m.ReturnedBooksComponent),
     canActivate: [authGuard]
   },
   { 
     path: 'borrowed-books', 
-    loadComponent: () => import('./pages/home/home').then(m => m.HomeComponent), // Placeholder
+    loadComponent: () => import('./pages/borrowed-books/borrowed-books').then(m => m.BorrowedBooksComponent),
     canActivate: [authGuard]
   }
 ];

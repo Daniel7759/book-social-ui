@@ -11,6 +11,7 @@ export class AuthService {
   private readonly TOKEN_KEY = 'authToken';
   private isAuthenticatedSubject: BehaviorSubject<boolean>;
   private userInfoSubject: BehaviorSubject<UserInfo | null>;
+  private initialized = false;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) { 
     // Inicializar inmediatamente con el estado real
@@ -19,6 +20,9 @@ export class AuthService {
     
     this.isAuthenticatedSubject = new BehaviorSubject<boolean>(initialAuthState);
     this.userInfoSubject = new BehaviorSubject<UserInfo | null>(initialUserInfo);
+    
+    // Marcar como inicializado después de verificar el token
+    this.initialized = true;
   }
 
   /**
@@ -59,7 +63,6 @@ export class AuthService {
   private decodeToken(token: string): UserInfo | null {
     try {
       const decoded = jwtDecode<UserInfo>(token);
-      console.log('Token decodificado:', decoded); // Para debug
       return decoded;
     } catch (error) {
       console.error('Error al decodificar token:', error);
@@ -138,6 +141,7 @@ export class AuthService {
 
   /**
    * Observable para suscribirse al estado de autenticación
+   * Solo emite cuando el servicio está completamente inicializado
    */
   get isAuthenticated$(): Observable<boolean> {
     return this.isAuthenticatedSubject.asObservable();
@@ -193,4 +197,5 @@ export class AuthService {
     
     return 'Usuario';
   }
+
 }

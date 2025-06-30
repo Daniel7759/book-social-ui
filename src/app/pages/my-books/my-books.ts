@@ -45,14 +45,8 @@ export class MyBooksComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // Verificar si el usuario está autenticado
-    this.authService.isAuthenticated$.subscribe(isAuth => {
-      if (!isAuth) {
-        this.router.navigate(['/login']);
-      } else {
-        this.loadMyBooks();
-      }
-    });
+    // Simplemente cargar los libros - los guards se encargan de la autenticación
+    this.loadMyBooks();
   }
 
   loadMyBooks(): void {

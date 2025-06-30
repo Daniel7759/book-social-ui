@@ -18,6 +18,8 @@ import { borrowBook } from '../fn/book/borrow-book';
 import { BorrowBook$Params } from '../fn/book/borrow-book';
 import { findAllBooks } from '../fn/book/find-all-books';
 import { FindAllBooks$Params } from '../fn/book/find-all-books';
+import { findAllBooksPublic } from '../fn/book/find-all-books-public';
+import { FindAllBooksPublic$Params } from '../fn/book/find-all-books-public';
 import { findAllBooksByOwner } from '../fn/book/find-all-books-by-owner';
 import { FindAllBooksByOwner$Params } from '../fn/book/find-all-books-by-owner';
 import { findAllBorrowedBooks } from '../fn/book/find-all-borrowed-books';
@@ -66,6 +68,31 @@ export class BookService extends BaseService {
    */
   findAllBooks(params?: FindAllBooks$Params, context?: HttpContext): Observable<PageResponseBookResponse> {
     return this.findAllBooks$Response(params, context).pipe(
+      map((r: StrictHttpResponse<PageResponseBookResponse>): PageResponseBookResponse => r.body)
+    );
+  }
+
+  /** Path part for operation `findAllBooksPublic()` */
+  static readonly FindAllBooksPublicPath = '/books/everyone';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `findAllBooksPublic()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  findAllBooksPublic$Response(params?: FindAllBooksPublic$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseBookResponse>> {
+    return findAllBooksPublic(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `findAllBooksPublic$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  findAllBooksPublic(params?: FindAllBooksPublic$Params, context?: HttpContext): Observable<PageResponseBookResponse> {
+    return this.findAllBooksPublic$Response(params, context).pipe(
       map((r: StrictHttpResponse<PageResponseBookResponse>): PageResponseBookResponse => r.body)
     );
   }
