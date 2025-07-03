@@ -1,12 +1,13 @@
 import { Routes } from '@angular/router';
 import { authGuard, loginGuard } from './guards/auth.guard';
 import { RenderMode } from '@angular/ssr';
+import { LoginComponent } from './pages/login/login';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { 
     path: 'login', 
-    loadComponent: () => import('./pages/login/login').then(m => m.LoginComponent),
+    component: LoginComponent,
     canActivate: [loginGuard]
   },
   { 
