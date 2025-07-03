@@ -1,11 +1,7 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "dist/book-social-ui/server/server.mjs",
-      "use": "@vercel/node"
-    }
-  ],
+  "outputDirectory": "dist/book-social-ui/browser",
+  "buildCommand": "npm run build && npm run build:ssr",
+  "devCommand": "npm run serve:ssr:book-social-ui",
   "routes": [
     {
       "src": "/(.*)",
