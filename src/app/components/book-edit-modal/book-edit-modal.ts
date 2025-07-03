@@ -9,7 +9,7 @@ import { BookService } from '../../services/services/book.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './book-edit-modal.html',
-  styleUrl: './book-edit-modal.css'
+  styleUrl: './book-edit-modal.scss'
 })
 export class BookEditModalComponent implements OnInit {
   @Input() book!: BookResponse;
@@ -31,13 +31,8 @@ export class BookEditModalComponent implements OnInit {
 
   private updatePreview(): void {
     if (this.book && this.book.cover) {
-      // Si el cover ya es una URL data, usarla directamente
-      if (this.book.cover.startsWith('data:image/')) {
-        this.previewUrl = this.book.cover;
-      } else {
-        // Si es Base64 sin prefijo, agregarlo
-        this.previewUrl = `data:image/jpeg;base64,${this.book.cover}`;
-      }
+      // Ahora book.cover es directamente una URL
+      this.previewUrl = this.book.cover;
     } else {
       this.previewUrl = null;
     }
@@ -92,7 +87,8 @@ export class BookEditModalComponent implements OnInit {
     }).subscribe({
       next: (response) => {
         this.uploading = false;
-        // Actualizar el libro con la nueva portada
+        // Actualizar el libro con la nueva portada URL
+        // Asumir que response contiene la nueva URL o usar la preview actual
         const updatedBook = { ...this.book, cover: this.previewUrl || undefined };
         this.onBookUpdated.emit(updatedBook);
         this.closeModal();
@@ -144,6 +140,6 @@ export class BookEditModalComponent implements OnInit {
    * Obtiene la URL de la imagen por defecto
    */
   getDefaultCover(): string {
-    return 'https://via.placeholder.com/300x400/6366f1/ffffff?text=No+Cover';
+    return 'https://www.svgrepo.com/show/508699/landscape-placeholder.svg';
   }
 }

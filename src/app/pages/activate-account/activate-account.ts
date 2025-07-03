@@ -9,7 +9,7 @@ import { AuthenticationService } from '../../services/services/authentication.se
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './activate-account.html',
-  styleUrl: './activate-account.css'
+  styleUrl: './activate-account.scss'
 })
 export class ActivateAccountComponent {
   activationForm: FormGroup;

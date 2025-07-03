@@ -12,7 +12,7 @@ import { PageResponseBorrowedBookResponse } from '../../services/models/page-res
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './borrowed-books.html',
-  styleUrl: './borrowed-books.css'
+  styleUrl: './borrowed-books.scss'
 })
 export class BorrowedBooksComponent implements OnInit, OnDestroy {
   borrowedBooks: BorrowedBookResponse[] = [];

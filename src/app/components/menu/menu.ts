@@ -7,7 +7,7 @@ import { AuthService } from '../../services/auth.service';
   selector: 'app-menu',
   imports: [CommonModule, RouterModule],
   templateUrl: './menu.html',
-  styleUrl: './menu.css'
+  styleUrl: './menu.scss'
 })
 export class Menu implements OnInit {
   isAuthenticated = false;

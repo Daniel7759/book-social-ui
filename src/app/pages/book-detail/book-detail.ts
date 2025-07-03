@@ -16,7 +16,7 @@ import { PageResponseFeedbackResponse } from '../../services/models/page-respons
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './book-detail.html',
-  styleUrl: './book-detail.css'
+  styleUrl: './book-detail.scss'
 })
 export class BookDetailComponent implements OnInit, OnDestroy {
   book: BookResponse | null = null;

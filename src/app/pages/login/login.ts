@@ -12,7 +12,7 @@ import { AuthenticationResponse } from '../../services/models/authentication-res
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrl: './login.scss'
 })
 export class LoginComponent {
   loginForm: FormGroup;

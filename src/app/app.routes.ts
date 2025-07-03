@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard, loginGuard } from './guards/auth.guard';
+import { RenderMode } from '@angular/ssr';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -25,7 +26,7 @@ export const routes: Routes = [
   },
   { 
     path: 'book/:id', 
-    loadComponent: () => import('./pages/book-detail/book-detail').then(m => m.BookDetailComponent)
+    loadComponent: () => import('./pages/book-detail/book-detail').then(m => m.BookDetailComponent),
     // SIN canActivate - página pública, pero algunas funciones requieren auth
   },
   { 

@@ -10,7 +10,7 @@ import { BookService } from '../../services/services/book.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './book-add-modal.html',
-  styleUrl: './book-add-modal.css'
+  styleUrl: './book-add-modal.scss'
 })
 export class BookAddModalComponent {
   @Input() set isOpen(value: boolean) {

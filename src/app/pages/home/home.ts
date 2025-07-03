@@ -13,7 +13,7 @@ import { PageResponseBookResponse } from '../../services/models/page-response-bo
   standalone: true,
   imports: [CommonModule, RouterModule, BookCardComponent],
   templateUrl: './home.html',
-  styleUrl: './home.css'
+  styleUrl: './home.scss'
 })
 export class HomeComponent implements OnInit, OnDestroy {
   books: BookResponse[] = [];

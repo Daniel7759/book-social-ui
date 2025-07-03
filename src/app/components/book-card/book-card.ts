@@ -7,7 +7,7 @@ import { BookResponse } from '../../services/models/book-response';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './book-card.html',
-  styleUrl: './book-card.css'
+  styleUrl: './book-card.scss'
 })
 export class BookCardComponent {
   @Input() book!: BookResponse;

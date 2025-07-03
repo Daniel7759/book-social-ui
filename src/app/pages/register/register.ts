@@ -10,7 +10,7 @@ import { RegistrationRequest } from '../../services/models/registration-request'
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './register.html',
-  styleUrl: './register.css'
+  styleUrl: './register.scss'
 })
 export class RegisterComponent {
   registerForm: FormGroup;

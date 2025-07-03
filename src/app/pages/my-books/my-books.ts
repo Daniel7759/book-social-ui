@@ -15,7 +15,7 @@ import { BookAddModalComponent } from '../../components/book-add-modal/book-add-
   standalone: true,
   imports: [CommonModule, FormsModule, BookCardComponent, BookEditModalComponent, BookAddModalComponent],
   templateUrl: './my-books.html',
-  styleUrl: './my-books.css'
+  styleUrl: './my-books.scss'
 })
 export class MyBooksComponent implements OnInit {
   books: BookResponse[] = [];
