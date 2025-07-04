@@ -2,22 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "dist/book-social-ui/server/server.mjs",
-      "use": "@vercel/node@canary"
-    },
-    {
       "src": "dist/book-social-ui/browser/**",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/(.\\..)",
-      "dest": "dist/book-social-ui/browser/$1"
-    },
-    {
       "src": "/(.*)",
-      "dest": "dist/book-social-ui/server/server.mjs"
+      "dest": "dist/book-social-ui/browser/index.csr.html"
     }
   ]
 }
