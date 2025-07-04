@@ -2,14 +2,14 @@
   "version": 3,
   "builds": [
     {
-      "src": "dist/*",
-      "use": "@vercel/static"
+      "src": "dist/book-social-ui/server.mjs",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/(.)",
-      "dest": "/dist/index.html"
+      "src": "/(.*)",
+      "dest": "dist/book-social-ui/server.mjs"
     }
   ]
 }
