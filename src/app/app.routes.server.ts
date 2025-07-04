@@ -7,6 +7,6 @@ export const serverRoutes: ServerRoute[] = [
   },
   {
     path: 'book/:id',
-    renderMode: RenderMode.Client
-  }
+    renderMode: RenderMode.Server
+  },
 ];
